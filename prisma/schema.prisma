@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+
+}
+
+model Anime {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  thumbnail   String
+  playlistId  String    @unique
+  episodes    Episode[]
+  createdAt   DateTime  @default(now())
+}
+
+model Episode {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  videoId     String   @unique
+  thumbnail   String
+  anime       Anime    @relation(fields: [animeId], references: [id])
+  animeId     String
+  createdAt   DateTime @default(now())
+}

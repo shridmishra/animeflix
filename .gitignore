@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+# Environment variables (CRITICAL - prevent secrets leak)
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
