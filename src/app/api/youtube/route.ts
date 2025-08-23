@@ -1,23 +1,18 @@
 // src/app/api/youtube/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import {
   fetchPlaylistDetails,
   fetchPlaylistVideos,
   extractPlaylistId,
-  
 } from "@/utils/youtube";
-
-import { prisma } from "../../../lib/prisma";
 import { VideoItem } from "@/types/youtube";
 
-// Ensure we are NOT on the Edge runtime (Prisma needs Node.js)
-export const runtime = "nodejs";
-
-// Optional: disable caching entirely for POST ingestion
+export const runtime = "nodejs"; // ensure Node runtime for Prisma
 export const dynamic = "force-dynamic";
 
 type BodyShape = {
-  playlistUrl?: string; // could be URL or raw ID
+  playlistUrl?: string; // accepts full URL or raw playlist ID
 };
 
 export async function POST(req: NextRequest) {
@@ -33,32 +28,33 @@ export async function POST(req: NextRequest) {
 
     const playlistId = extractPlaylistId(body.playlistUrl);
 
-    // 1) Get playlist meta
+    // 1) Fetch playlist metadata (title/description/thumbnail if present)
     const details = await fetchPlaylistDetails(playlistId);
 
-    // 2) Upsert Anime
+    // 2) Fetch ALL videos in playlist (pagination handled in helper)
+    const videos: VideoItem[] = await fetchPlaylistVideos(playlistId);
+
+    // 3) If playlist thumbnail is missing, use first video's thumbnail (if available)
+    const finalThumbnail = details.thumbnail || videos[0]?.thumbnail || "";
+
+    // 4) Upsert Anime using the resolved thumbnail
     const anime = await prisma.anime.upsert({
       where: { playlistId },
       update: {
         title: details.title,
         description: details.description,
-        thumbnail: details.thumbnail,
+        thumbnail: finalThumbnail,
       },
       create: {
         title: details.title,
         description: details.description,
-        thumbnail: details.thumbnail,
+        thumbnail: finalThumbnail,
         playlistId,
       },
-      select: { id: true, title: true, playlistId: true },
+      select: { id: true, title: true, playlistId: true, thumbnail: true },
     });
 
-    // 3) Fetch episodes
-    const videos: VideoItem[] = await fetchPlaylistVideos(playlistId);
-
-    // 4) Upsert each episode
-    // (You could use createMany({ skipDuplicates: true }) for speed,
-    // but upsert ensures updates if titles/descriptions change.)
+    // 5) Upsert episodes (keeps existing ones, updates changed metadata)
     for (const v of videos) {
       await prisma.episode.upsert({
         where: { videoId: v.videoId },
@@ -79,17 +75,11 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      {
-        message: "Anime imported successfully",
-        anime,
-        episodeCount: videos.length,
-      },
+      { message: "Anime imported successfully", anime, episodeCount: videos.length },
       { status: 201 }
     );
   } catch (err) {
-    // Strongly type and serialize the error safely
-    const message =
-      err instanceof Error ? err.message : "Unknown error during ingestion";
+    const message = err instanceof Error ? err.message : "Unknown error during ingestion";
     console.error("[/api/youtube] Ingestion failed:", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }

@@ -2,8 +2,7 @@
 
 export type Thumb = { 
   url: string; 
-  width?: number; 
-  height?: number; 
+  
 };
 
 export type SnippetThumbnails = {
