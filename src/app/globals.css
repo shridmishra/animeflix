@@ -99,12 +99,12 @@
 @layer components {
   /* Base brutalist style */
   .brutal {
-    @apply border-2 bg-white text-black border-black shadow-[2px_2px_0_0_#000];
+    @apply border-2 bg-white text-black rounded-md border-black shadow-[2px_2px_0_0_#000];
   }
 
   /* Dark mode inversion */
   .dark .brutal {
-    @apply border-2 bg-black text-white border-white shadow-[2px_2px_0_0_#fff];
+    @apply border-2 bg-black text-white rounded-md border-white shadow-[2px_2px_0_0_#fff];
   }
 }
 

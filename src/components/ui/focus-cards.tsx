@@ -20,20 +20,19 @@ export const Card = React.memo(
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "relative min-w-[250px] md:min-w-[320px] aspect-video snap-center",
-        "bg-white dark:bg-neutral-950 border-4 border-black dark:border-neutral-200",
-        "rounded-none overflow-hidden transition-transform duration-200 ease-out",
-        hovered !== null && hovered !== index && "scale-[0.95] opacity-70"
+        " overflow-hidden transition-transform duration-200 ease-out",
+        hovered === index && "scale-[1.05]"
       )}
     >
       <img
         src={card.src}
         alt={card.title}
-        className="object-cover absolute inset-0 w-full h-full grayscale contrast-125"
+        className="object-cover absolute inset-0 w-full h-full rounded-md"
       />
       <div
         className={cn(
           "absolute inset-0 flex items-end p-4",
-          "bg-black/70 text-white uppercase tracking-wider font-extrabold",
+          "bg-background/50 text-text ",
           "transition-opacity duration-200",
           hovered === index ? "opacity-100" : "opacity-0"
         )}
@@ -41,6 +40,7 @@ export const Card = React.memo(
         <div className="text-xl md:text-2xl">{card.title}</div>
       </div>
     </div>
+
   )
 );
 
@@ -50,13 +50,8 @@ export function FocusCards({ cards }: { cards: { title: string; src: string }[] 
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <section className="w-full overflow-x-clip ">
-      <div
-        className={cn(
-          "flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hidden -mx-4 px-4",
-          " py-8 "
-        )}
-      >
+    <section className="w-full overflow-x-clip">
+      <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hidden -mx-4 px-4">
         {cards.map((card, index) => (
           <Card
             key={card.title}
