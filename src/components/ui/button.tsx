@@ -1,8 +1,6 @@
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
@@ -12,11 +10,19 @@ const buttonVariants = cva(
       variant: {
         default:
           "text-main-foreground bg-main border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
-        noShadow: "text-main-foreground bg-main border-2 border-border",
+        noShadow:
+          "text-main-foreground bg-main border-2 border-border",
         neutral:
           "bg-secondary-background text-foreground border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
         reverse:
           "text-main-foreground bg-main border-2 border-border hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-shadow",
+
+        brutal:
+          "bg-white text-black border-2 border-black shadow-[2px_2px_0_0_#000] " +
+          "dark:bg-black dark:text-white dark:border-white dark:shadow-[2px_2px_0_0_#fff] " +
+          "hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none " +
+          "dark:hover:translate-x-[4px] dark:hover:translate-y-[4px] dark:hover:shadow-none " +
+          "transition-all",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -26,10 +32,10 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "brutal",
       size: "default",
     },
-  },
+  }
 )
 
 function Button({
@@ -47,7 +53,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size,  }),className)}
       {...props}
     />
   )
