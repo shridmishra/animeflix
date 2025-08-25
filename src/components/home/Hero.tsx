@@ -13,14 +13,7 @@ interface Anime {
 
 const Hero: React.FC = () => {
   const animes: Anime[] = [
-    {
-      src: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/gallery/slide1.png",
-      title: "Forest Adventure",
-      rating: "8.5/10",
-      genre: "Adventure, Fantasy",
-      description:
-        "A thrilling adventure in the mystical forest, full of magic and wonders.",
-    },
+   
     {
       src: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/gallery/slide2.png",
       title: "Ocean Quest",
@@ -107,7 +100,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Thumbnails */}
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-4 max-w-6xl">
+        <div className="grid grid-cols-4 md:grid-cols-7 gap-4 max-w-9xl">
           {animes.map((anime, idx) => (
             <div
               key={idx}

@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground bg-grid min-h-screen">
         <Navbar />
-        <main className="mx-2 sm:mx-8 md:mx-16 lg:mx-28 xl:mx-28 mt-24">
+        <main className="mx-2 sm:mx-8 md:mx-16 lg:mx-28 xl:mx-28 my-28">
           {children}
         </main>
       </body>
