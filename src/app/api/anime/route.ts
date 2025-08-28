@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const animes = await prisma.anime.findMany({
-      include: { episodes: true }, // optional if you want episodes too
+      include: { episodes: true }, 
       orderBy: { createdAt: "desc" },
     });
 
