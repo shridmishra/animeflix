@@ -1,14 +1,9 @@
-"use client"
-import Section from "../Section";
+import LatestAnimesSection from "@/components/home/Latest";
 
-export default function List() {
+export default function HomePage() {
   return (
-    <div className="scrollbar-hidden flex flex-col gap-8">
-      <Section />
-      <Section />
-      <Section />
-      <Section />
-    </div>
-
-  )
+    <main>
+      <LatestAnimesSection />
+    </main>
+  );
 }

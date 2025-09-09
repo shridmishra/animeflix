@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { Anime } from "../../generated/prisma";
+import Link from "next/link";
 
 interface Props {
   allAnime: Anime[];
@@ -34,6 +35,10 @@ export function AnimeGrid({ allAnime, setAllAnime }: Props) {
     }
   }
 
+  useEffect(() => {
+    fetchAllAnime();
+  },[])
+
   return (
     <div className="space-y-4 border p-4 rounded bg-secondary-background">
       <h2 className="text-xl font-semibold">All Anime</h2>
@@ -50,7 +55,9 @@ export function AnimeGrid({ allAnime, setAllAnime }: Props) {
       {allAnime.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {allAnime.map((anime) => (
-            <div key={anime.id} className="border rounded shadow p-3 bg-background brutal">
+            <Link key={anime.id} href={`/anime/${anime.id}`}>
+            
+            <div  className="border rounded shadow p-3 bg-background brutal">
               <h3 className="font-semibold text-lg">{anime.title}</h3>
               {anime.thumbnail ? (
                 <Image
@@ -67,6 +74,8 @@ export function AnimeGrid({ allAnime, setAllAnime }: Props) {
               )}
               <p className="text-sm text-gray-700 mt-2 line-clamp-3">{anime.description}</p>
             </div>
+                        </Link>
+
           ))}
         </div>
       ) : (
