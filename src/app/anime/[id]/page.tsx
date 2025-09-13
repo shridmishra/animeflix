@@ -24,13 +24,10 @@ export default async function AnimePage({ params }: PageProps) {
   const defaultVideoId = episodes.find((e) => e.videoId)?.videoId ?? null;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <div className="">
-        <h1 className="text-xl lg:text-4xl font-semibold">{anime.title}</h1>
-        <p className="text-gray-700 mt-2">{anime.description}</p>
-      </div>
+    <>
+      
 
       <EpisodePlayer episodes={episodes} defaultVideoId={defaultVideoId} />
-    </div>
+    </>
   );
 }
