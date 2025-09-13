@@ -1,15 +1,10 @@
 "use client";
-import { FocusCards } from "@/components/ui/focus-cards";
+import { AnimeCardList } from "@/components/AnimeCard";
 import Title from "./ui/title";
 import Star8 from "./ui/star";
+import { AnimeCardType } from "@/types/anime";
 
-export type AnimeCard = {
-  id: string;
-  title: string;
-  thumbnail: string | null;
-};
-
-export default function Section({ cards }: { cards: AnimeCard[] }) {
+export default function Section({ cards }: { cards: AnimeCardType[] }) {
   return (
     <div className="flex flex-col brutal p-4">
       <div className="flex gap-2 items-center mb-3">
@@ -17,12 +12,7 @@ export default function Section({ cards }: { cards: AnimeCard[] }) {
         <Title text="Latest Animes" />
       </div>
 
-      <FocusCards
-        cards={cards.map((anime) => ({
-          title: anime.title,
-          src: anime.thumbnail || "/placeholder.jpg", // fallback if no thumbnail
-        }))}
-      />
+      <AnimeCardList cards={cards} />
     </div>
   );
 }

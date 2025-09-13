@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import Section, { AnimeCard } from "../Section";
+import Section from "../Section";
+import { AnimeCardType } from "@/types/anime";
 
 export default async function LatestAnimesSection() {
   const animes = await prisma.anime.findMany({
@@ -8,5 +9,5 @@ export default async function LatestAnimesSection() {
     select: { id: true, title: true, thumbnail: true },
   });
 
-  return <Section cards={animes as AnimeCard[]} />;
+  return <Section cards={animes as AnimeCardType[]} />;
 }

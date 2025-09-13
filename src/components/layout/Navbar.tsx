@@ -31,18 +31,21 @@ const Navbar = () => {
         show ? "translate-y-0" : "-translate-y-24"
       }`}
     >
-      <Button
+      <Link href={"/"} passHref>
+         <Button
         variant="brutal"
         className="text-xl font-semibold bg-main-light"
       >
         AnimeFlix
       </Button>
+      </Link>
+   
       <div className="flex items-center gap-6">
         <div className="flex gap-3 font-medium">
           <Link href={"/"} className="text-xl">
             Popular
           </Link>
-          <Link href={"/"} className="text-xl tracking-tighter">
+          <Link href={"/admin"} className="text-xl tracking-tighter">
             Latest
           </Link>
         </div>
