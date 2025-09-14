@@ -9,6 +9,7 @@ const page = () => {
       <HeroSection />
       <Separator/>
       <List />
+      <Separator/>
     </div>
 
   )

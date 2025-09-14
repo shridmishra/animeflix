@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IoAtCircle, IoPlay } from "react-icons/io5";
+import {  IoPlay } from "react-icons/io5";
 
 export type EpisodeLite = { id: string; title: string; videoId: string };
 
@@ -44,11 +44,11 @@ export default function EpisodePlayer({
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 h-[85vh]">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 min-h-[85vh]">
       {/* Player + controls */}
       <div className="xl:col-span-8 flex flex-col h-full gap-3">
         {/* Player */}
-        <div className="relative w-full h-[50vh] rounded-md overflow-hidden border-2 border-border bg-black flex-shrink-0">
+        <div className="relative w-full h-[55vh] rounded-md overflow-hidden border-2 border-border bg-black flex-shrink-0">
           {current ? (
             <iframe
               src={`https://www.youtube.com/embed/${current}?rel=0&modestbranding=1&showinfo=0`}
@@ -76,7 +76,7 @@ export default function EpisodePlayer({
           {current && !isPlaying && (
             <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
               <div className="brutal-surface p-4 flex items-center gap-3">
-                <IoAtCircle className="w-6 h-6 animate-bounce" />
+                <div className="w-8 h-8 border-4 border-t-foreground border-r-foreground border-b-foreground border-l-transparent rounded-full animate-spin "></div>
                 <span className="font-bold text-base">LOADING EPISODE...</span>
               </div>
             </div>
@@ -121,8 +121,8 @@ export default function EpisodePlayer({
                 onClick={goToNext}
                 disabled={currentIndex >= episodes.length - 1}
                 className={`brutal-surface brutal-hover px-3 py-1 font-bold text-sm ${currentIndex >= episodes.length - 1
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
                   }`}
               >
                 NEXT →
@@ -133,7 +133,7 @@ export default function EpisodePlayer({
       </div>
 
       {/* Episode list */}
-      <div className="xl:col-span-4 flex flex-col h-[72vh]">
+      <div className="xl:col-span-4 flex flex-col lg:h-[74vh] ">
         <div className="brutal-surface p-4 h-full flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
@@ -159,8 +159,8 @@ export default function EpisodePlayer({
                   disabled={disabled}
                   data-active={isActive ? "true" : "false"}
                   className={`w-full text-left brutal-hover p-5 relative transition-all duration-200 ${isActive
-                      ? "brutal-surface ring-1 ring-main" // removed scale/rotate
-                      : "brutal-surface hover:scale-102 hover:rotate-0"
+                    ? "brutal-surface ring-1 ring-main"
+                    : "brutal-surface hover:scale-102 hover:rotate-0"
                     } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                 >
                   {/* Badge */}
@@ -178,10 +178,10 @@ export default function EpisodePlayer({
                     <div className="flex items-center gap-2 text-xs mt-1">
                       <div
                         className={`w-2 h-2 rounded-full ${disabled
-                            ? "bg-surface-2"
-                            : isActive
-                              ? "bg-main animate-pulse"
-                              : "bg-foreground/40"
+                          ? "bg-surface-2"
+                          : isActive
+                            ? "bg-main animate-pulse"
+                            : "bg-foreground/40"
                           }`}
                       ></div>
                       <span className="opacity-70">

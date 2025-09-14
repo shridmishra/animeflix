@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "AnimeFlix",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <main className="mx-2 sm:mx-8 md:mx-16 lg:mx-28 xl:mx-28 my-32">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

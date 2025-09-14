@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { AnimeCardType } from "@/types/anime";
+import { LoadingPopup } from "./LoadingPopup"; 
 
 interface Props {
   cards: AnimeCardType[];
@@ -10,26 +11,39 @@ interface Props {
 
 export function AnimeCardList({ cards }: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Array of brutal color classes to cycle through
   const brutalColors = [
     "brutal-pink",
     "brutal-cyan",
-    "brutal-yellow", 
+    "brutal-yellow",
     "brutal-orange",
     "brutal-green",
     "brutal-red",
     "brutal-blue",
-    "brutal-violet"
+    "brutal-violet",
   ];
 
+  // Handle card click to show loading popup
+  const handleCardClick = () => {
+    setIsLoading(true);
+    // Simulate loading delay (can be adjusted based on actual navigation time)
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Adjust duration as needed
+  };
+
   return (
-    <section className="w-full overflow-x-clip">
+    <section className="w-full overflow-x-clip relative">
+      {/* Loading Popup */}
+      <LoadingPopup isVisible={isLoading} />
+
       <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hidden -mx-4 px-4 py-8">
         {cards.map((anime, index) => {
           const isHovered = hovered === index;
           const colorClass = brutalColors[index % brutalColors.length];
-          
+
           return (
             <Link
               key={anime.id}
@@ -39,6 +53,7 @@ export function AnimeCardList({ cards }: Props) {
               }`}
               onMouseEnter={() => setHovered(index)}
               onMouseLeave={() => setHovered(null)}
+              onClick={handleCardClick}
             >
               {/* Inner container for the image */}
               <div className="relative w-full h-full overflow-hidden rounded-sm border-2 border-border bg-black">
@@ -63,53 +78,59 @@ export function AnimeCardList({ cards }: Props) {
                   </div>
                 )}
 
-                
                 {/* Overlay title with enhanced styling - only shows on hover */}
                 <div
                   className={`absolute inset-0 flex items-end transition-all duration-300 ${
-                    isHovered 
-                      ? "opacity-100 bg-gradient-to-t from-black/80 via-black/40 to-transparent" 
+                    isHovered
+                      ? "opacity-100 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
                       : "opacity-0"
                   }`}
                 >
                   <div className="p-4 w-full">
-                    <div className={`transform transition-all duration-300 ${
-                      isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                    }`}>
+                    <div
+                      className={`transform transition-all duration-300 ${
+                        isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                      }`}
+                    >
                       <h3 className="text-lg md:text-xl font-bold text-white drop-shadow-lg mb-2 line-clamp-2">
                         {anime.title}
                       </h3>
-                      
+
                       {/* Additional hover info */}
-                      <div className="flex items-center gap-2 transition-all duration-500 delay-100 translate-y-0 opacity-100"
+                      <div
+                        className="flex items-center gap-2 transition-all duration-500 delay-100 translate-y-0 opacity-100"
                       >
                         <div className="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-sm border border-white/30">
                           <span className="text-xs font-semibold text-white">WATCH NOW</span>
                         </div>
-                       
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Scanline effect for extra anime feel */}
-                <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-                  isHovered ? "opacity-20" : "opacity-0"
-                }`} style={{
-                  background: `repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255,255,255,0.1) 2px,
-                    rgba(255,255,255,0.1) 4px
-                  )`
-                }}></div>
+                <div
+                  className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                    isHovered ? "opacity-20" : "opacity-0"
+                  }`}
+                  style={{
+                    background: `repeating-linear-gradient(
+                      0deg,
+                      transparent,
+                      transparent 2px,
+                      rgba(255,255,255,0.1) 2px,
+                      rgba(255,255,255,0.1) 4px
+                    )`,
+                  }}
+                ></div>
               </div>
 
               {/* Floating number badge */}
-              <div className={`absolute -top-2 -left-2 w-8 h-8 rounded-full bg-main border-2 border-border shadow-shadow flex items-center justify-center transform transition-all duration-300 ${
-                isHovered ? "scale-125 -rotate-12" : "scale-100 rotate-0"
-              }`}>
+              <div
+                className={`absolute -top-2 -left-2 w-8 h-8 rounded-full bg-main border-2 border-border shadow-shadow flex items-center justify-center transform transition-all duration-300 ${
+                  isHovered ? "scale-125 -rotate-12" : "scale-100 rotate-0"
+                }`}
+              >
                 <span className="text-sm font-bold text-white">{index + 1}</span>
               </div>
             </Link>

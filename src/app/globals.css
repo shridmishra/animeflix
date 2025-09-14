@@ -3,8 +3,17 @@
 @import "tw-animate-css";
 
 @theme {
+    --font-title: "TheLastShuriken", sans-serif;
   --font-heading: "Yusei Magic", sans-serif;
   --font-body: "Yusei Magic", sans-serif;
+}
+
+
+@font-face {
+  font-family: 'TheLastShuriken';
+  src: url('/fonts/TheLastShuriken.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -17,9 +26,9 @@
   --main-foreground: oklch(0% 0 0);
   
   /* Primary brand colors */
-  --main: oklch(65% 0.25 310);           /* Vibrant purple */
-  --main-light: oklch(85% 0.15 310);     /* Light purple */
-  --main-dark: oklch(45% 0.30 310);      /* Dark purple */
+  --main: oklch(80% 0.08 280);          /* Vibrant purple */
+  --main-light: oklch(80% 0.08 280);     /* Light purple */
+  --main-dark: oklch(80% 0.08 280);;      /* Dark purple */
   
   /* Anime-inspired accent colors */
   --accent-pink: oklch(70% 0.20 350);     /* Hot pink */
@@ -35,6 +44,7 @@
   --surface: oklch(92% 0.04 280);
   --surface-2: oklch(88% 0.06 280);
   --surface-3: oklch(84% 0.08 280);
+  --surface-4: oklch(60% 0.08 280);
   
   /* Utility colors */
   --border: oklch(20% 0 0);
@@ -59,9 +69,9 @@
   --main-foreground: oklch(100% 0 0);
   
   /* Primary brand colors - more saturated in dark mode */
-  --main: oklch(75% 0.30 310);           /* Brighter purple */
-  --main-light: oklch(85% 0.25 310);     /* Vivid light purple */
-  --main-dark: oklch(55% 0.35 310);      /* Rich dark purple */
+  --main:oklch(35% 0.10 280);          /* Brighter purple */
+  --main-light: oklch(35% 0.10 280);     /* Vivid light purple */
+  --main-dark: oklch(35% 0.10 280);     /* Rich dark purple */
   
   /* Enhanced accent colors for dark mode */
   --accent-pink: oklch(80% 0.25 350);     /* Neon pink */
@@ -116,6 +126,7 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
+   --color-surface-4: var(--surface-4);
   
   /* Utility colors */
   --color-border: var(--border);

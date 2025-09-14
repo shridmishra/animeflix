@@ -1,4 +1,3 @@
-// src/hooks/useDarkMode.ts
 import { useState, useEffect, useCallback } from "react";
 
 export default function useDarkMode() {
@@ -9,13 +8,11 @@ export default function useDarkMode() {
     if (typeof window === "undefined") return;
 
     const saved = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    const initial = saved === "dark" || (!saved && prefersDark);
+    const initial = saved === "dark"; // Default to light mode unless explicitly saved as dark
 
     setIsDarkMode(initial);
 
-    // ✅ Apply theme immediately on mount
+    // Apply theme immediately on mount
     document.documentElement.classList.toggle("dark", initial);
   }, []);
 
