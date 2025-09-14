@@ -1,13 +1,17 @@
-import { prisma } from "@/lib/prisma";
 import EpisodePlayer from "@/components/EpisodePlayer";
+import { prisma } from "@/lib/prisma";
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default async function AnimePage({ params }: PageProps) {
+export default async function AnimePage({
+  params,
+  
+}: {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { id } = await params;
+  
   const anime = await prisma.anime.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { episodes: { orderBy: { createdAt: "asc" } } },
   });
 
@@ -23,11 +27,5 @@ export default async function AnimePage({ params }: PageProps) {
 
   const defaultVideoId = episodes.find((e) => e.videoId)?.videoId ?? null;
 
-  return (
-    <>
-      
-
-      <EpisodePlayer episodes={episodes} defaultVideoId={defaultVideoId} />
-    </>
-  );
+  return <EpisodePlayer episodes={episodes} defaultVideoId={defaultVideoId} />;
 }

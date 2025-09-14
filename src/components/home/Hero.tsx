@@ -8,7 +8,6 @@ import {
   IoPlay,
   IoHeart,
   IoVideocam,
-  IoBook,
   IoList,
 
 } from "react-icons/io5";

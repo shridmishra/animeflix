@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import type { Anime } from "../../generated/prisma";
 import { Trash2 } from "lucide-react";
+import Image from "next/image";
 
 interface Props {
   allAnime: Anime[];
@@ -35,7 +36,7 @@ export function AnimeGrid({ allAnime, setAllAnime }: Props) {
     } finally {
       if (isMounted.current) setLoadingAnime(false);
     }
-  }, [setAllAnime]); // only stable deps
+  }, [loadingAnime, setAllAnime]); 
 
   // Handle delete
   const handleDelete = useCallback(async () => {
@@ -129,7 +130,7 @@ export function AnimeGrid({ allAnime, setAllAnime }: Props) {
             >
               {/* Thumbnail */}
               {anime.thumbnail ? (
-                <img
+                <Image
                   src={anime.thumbnail}
                   alt={anime.title}
                   className="w-20 h-12 object-cover rounded"
