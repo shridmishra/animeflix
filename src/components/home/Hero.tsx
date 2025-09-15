@@ -48,7 +48,7 @@ export default function Hero({ animes }: { animes: AnimeCard[] }) {
       {/* Loading Popup */}
       <LoadingPopup isVisible={isLoading} />
 
-      <div className="brutal-surface p-3 md:p-6 relative">
+      <div className="brutal-surface bg-secondary-background p-3 md:p-6 relative">
         <div className="flex flex-col items-start space-y-4 md:space-y-8">
           {/* Main content - Mobile first approach */}
           <div className="flex flex-col w-full max-w-7xl gap-4 md:gap-6 lg:gap-8">
@@ -73,7 +73,7 @@ export default function Hero({ animes }: { animes: AnimeCard[] }) {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                     {/* Anime-themed floating elements - Responsive positioning */}
-                    <div className="absolute top-2 right-2 md:top-4 md:right-4 lg:top-6 lg:right-6 brutal-surface-3 px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-2 transform rotate-2 md:rotate-3 lg:rotate-4">
+                    <div className="absolute top-2 right-2 md:top-4 md:right-4 lg:top-6 lg:right-6 brutal-surface px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-2 transform rotate-2 md:rotate-3 lg:rotate-4">
                       <div className="flex items-center gap-1 md:gap-2">
                         <IoFlame className="text-sm md:text-base lg:text-lg text-text" />
                         <span className="text-xs md:text-sm font-bold">HOT</span>
@@ -163,7 +163,7 @@ export default function Hero({ animes }: { animes: AnimeCard[] }) {
                       <span className="text-xs md:text-sm lg:text-base">WATCH NOW</span>
                     </div>
                   </Link>
-                  <button className="brutal-surface brutal-hover px-3 py-3 md:px-4 md:py-4 lg:px-6 lg:py-4 font-bold text-lg md:text-xl lg:text-2xl transition-all duration-200 hover:bg-accent-red hover:text-main-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+                  <button className="brutal-surface-3 brutal-hover px-3 py-3 md:px-4 md:py-4 lg:px-6 lg:py-4 font-bold text-lg md:text-xl lg:text-2xl transition-all duration-200 hover:bg-accent-red hover:text-main-foreground focus:outline-none focus:ring-2 focus:ring-ring">
                     <div className="flex items-center gap-1">
                       <IoHeart />
                     </div>
@@ -188,7 +188,7 @@ export default function Hero({ animes }: { animes: AnimeCard[] }) {
                 </div>
               </div>
 
-              <div className="brutal-surface p-3 md:p-6 lg:p-8 py-3 md:py-4 mt-12 lg:mt-0 md:mt-12">
+              <div className="brutal-surface-2 p-3 md:p-6 lg:p-8 py-3 md:py-4 mt-12 lg:mt-0 md:mt-12">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4 lg:gap-6 mb-4 md:mb-6 lg:mb-8">
                   <div className="brutal-main px-3 py-2 md:px-4 md:py-2 lg:px-6 lg:py-3">
                     <div className="flex items-center gap-1 md:gap-2">

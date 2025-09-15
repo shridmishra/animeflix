@@ -3,11 +3,10 @@
 @import "tw-animate-css";
 
 @theme {
-    --font-title: "TheLastShuriken", sans-serif;
+  --font-title: "TheLastShuriken", sans-serif;
   --font-heading: "Yusei Magic", sans-serif;
   --font-body: "Yusei Magic", sans-serif;
 }
-
 
 @font-face {
   font-family: 'TheLastShuriken';
@@ -284,8 +283,8 @@ html, body {
 .bg-grid {
   background-color: var(--background);
   background-image:
-    linear-gradient(to right, color-mix(in oklch, var(--main) 15%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklch, var(--main) 15%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklch, var(--main) 50%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--main) 50%, transparent) 1px, transparent 1px);
   background-size: 75px 75px;
 }
 

@@ -1,17 +1,26 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnimeCardType } from "@/types/anime";
 import { LoadingPopup } from "./LoadingPopup"; 
+import { cn } from "@/lib/utils";
 
 interface Props {
   cards: AnimeCardType[];
+  className?: string;
 }
 
-export function AnimeCardList({ cards }: Props) {
+export function AnimeCardList({ cards, className }: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Detect if the device supports touch
+  useEffect(() => {
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouchDevice(isTouch);
+  }, []);
 
   // Array of brutal color classes to cycle through
   const brutalColors = [
@@ -25,21 +34,37 @@ export function AnimeCardList({ cards }: Props) {
     "brutal-violet",
   ];
 
-  // Handle card click to show loading popup
-  const handleCardClick = () => {
-    setIsLoading(true);
-    // Simulate loading delay (can be adjusted based on actual navigation time)
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // Adjust duration as needed
+  // Handle card click for loading popup and navigation
+  const handleCardClick = (index: number, event: React.MouseEvent | React.TouchEvent) => {
+    if (isTouchDevice && hovered !== index) {
+      // On mobile, first tap toggles hover state, prevent navigation
+      event.preventDefault();
+      setHovered(index);
+      // Reset hover after 3 seconds
+      setTimeout(() => {
+        setHovered(null);
+      }, 3000);
+    } else if (isTouchDevice && hovered === index) {
+      // Second tap on mobile triggers navigation
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    } else {
+      // Desktop: trigger loading and navigation
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
   return (
-    <section className="w-full overflow-x-clip relative">
+    <section className={cn("w-full overflow-x-clip relative", className)}>
       {/* Loading Popup */}
       <LoadingPopup isVisible={isLoading} />
 
-      <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hidden -mx-4 px-4 py-8">
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hidden px-4 py-6 sm:px-6 sm:py-8">
         {cards.map((anime, index) => {
           const isHovered = hovered === index;
           const colorClass = brutalColors[index % brutalColors.length];
@@ -48,12 +73,13 @@ export function AnimeCardList({ cards }: Props) {
             <Link
               key={anime.id}
               href={`/anime/${anime.id}`}
-              className={`relative min-w-[300px] md:min-w-[360px] aspect-video snap-center overflow-hidden brutal-hover ${colorClass} p-2 transform-gpu transition-all duration-300 ${
-                isHovered ? "scale-110 z-20 rotate-0" : "scale-100 rotate-0"
-              }`}
-              onMouseEnter={() => setHovered(index)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={handleCardClick}
+              className={cn(
+                `relative min-w-[200px] sm:min-w-[280px] md:min-w-[320px] aspect-[2/3] snap-start overflow-hidden brutal-hover ${colorClass} p-2 transform-gpu transition-all duration-300`,
+                isHovered ? "scale-105 z-20 rotate-0" : "scale-100 rotate-0"
+              )}
+              onMouseEnter={() => !isTouchDevice && setHovered(index)}
+              onMouseLeave={() => !isTouchDevice && setHovered(null)}
+              onClick={(e) => handleCardClick(index, e)}
             >
               {/* Inner container for the image */}
               <div className="relative w-full h-full overflow-hidden rounded-sm border-2 border-border bg-black">
@@ -63,36 +89,39 @@ export function AnimeCardList({ cards }: Props) {
                     src={anime.thumbnail}
                     alt={anime.title}
                     fill
-                    className={`object-cover transition-all duration-300 ${
+                    className={cn(
+                      "object-cover transition-all duration-300",
                       isHovered ? "scale-110 brightness-110 contrast-110" : "scale-100"
-                    }`}
+                    )}
                   />
                 ) : (
                   <div className="absolute inset-0 bg-surface-3 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-accent-violet flex items-center justify-center border-2 border-border">
-                        <span className="text-2xl">📺</span>
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 rounded-full bg-accent-violet flex items-center justify-center border-2 border-border">
+                        <span className="text-xl sm:text-2xl">📺</span>
                       </div>
-                      <span className="text-foreground font-semibold text-sm">No Thumbnail</span>
+                      <span className="text-foreground font-semibold text-xs sm:text-sm">No Thumbnail</span>
                     </div>
                   </div>
                 )}
 
-                {/* Overlay title with enhanced styling - only shows on hover */}
+                {/* Overlay title with enhanced styling - shows on hover or tap */}
                 <div
-                  className={`absolute inset-0 flex items-end transition-all duration-300 ${
+                  className={cn(
+                    "absolute inset-0 flex items-end transition-all duration-300",
                     isHovered
                       ? "opacity-100 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
                       : "opacity-0"
-                  }`}
+                  )}
                 >
-                  <div className="p-4 w-full">
+                  <div className="p-3 sm:p-4 w-full">
                     <div
-                      className={`transform transition-all duration-300 ${
+                      className={cn(
+                        "transform transition-all duration-300",
                         isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                      }`}
+                      )}
                     >
-                      <h3 className="text-lg md:text-xl font-bold text-white drop-shadow-lg mb-2 line-clamp-2">
+                      <h3 className="text-sm sm:text-lg md:text-xl font-bold text-white drop-shadow-lg mb-2 line-clamp-2">
                         {anime.title}
                       </h3>
 
@@ -110,9 +139,10 @@ export function AnimeCardList({ cards }: Props) {
 
                 {/* Scanline effect for extra anime feel */}
                 <div
-                  className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                  className={cn(
+                    "absolute inset-0 pointer-events-none transition-opacity duration-300",
                     isHovered ? "opacity-20" : "opacity-0"
-                  }`}
+                  )}
                   style={{
                     background: `repeating-linear-gradient(
                       0deg,
@@ -127,11 +157,12 @@ export function AnimeCardList({ cards }: Props) {
 
               {/* Floating number badge */}
               <div
-                className={`absolute -top-2 -left-2 w-8 h-8 rounded-full bg-main border-2 border-border shadow-shadow flex items-center justify-center transform transition-all duration-300 ${
+                className={cn(
+                  "absolute -top-2 -left-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-main border-2 border-border shadow-shadow flex items-center justify-center transform transition-all duration-300",
                   isHovered ? "scale-125 -rotate-12" : "scale-100 rotate-0"
-                }`}
+                )}
               >
-                <span className="text-sm font-bold text-white">{index + 1}</span>
+                <span className="text-xs sm:text-sm font-bold text-white">{index + 1}</span>
               </div>
             </Link>
           );
